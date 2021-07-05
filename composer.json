@@ -84,14 +84,13 @@
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
-        "heroku-postbuild": "node_modules/.bin/encore production",
         "post-install-cmd": [
             "@auto-scripts",
-            "@heroku-postbuild"
+            "node_modules/.bin/encore production"
         ],
         "post-update-cmd": [
             "@auto-scripts",
-            "@heroku-postbuild"
+            "node_modules/.bin/encore production"
         ]
     },
     "conflict": {
