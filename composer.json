@@ -86,11 +86,11 @@
         },
         "post-install-cmd": [
             "@auto-scripts",
-            "node_modules/.bin/encore production"
+            "./node_modules/.bin/encore production"
         ],
         "post-update-cmd": [
             "@auto-scripts",
-            "node_modules/.bin/encore production"
+            "./node_modules/.bin/encore production"
         ]
     },
     "conflict": {
