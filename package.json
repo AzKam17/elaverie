@@ -1,13 +1,12 @@
 {
     "devDependencies": {
         "@symfony/stimulus-bridge": "^2.0.0",
+        "@symfony/ux-lazy-image": "file:vendor//symfony/ux-lazy-image/Resources/assets",
         "@symfony/webpack-encore": "^1.0.0",
         "core-js": "^3.0.0",
+        "jquery": "^3.6.0",
         "regenerator-runtime": "^0.13.2",
         "stimulus": "^2.0.0",
-        "vue": "2.5",
-        "vue-loader": "15.9.5",
-        "vue-template-compiler": "^2.6.13",
         "webpack-notifier": "^1.6.0"
     },
     "license": "UNLICENSED",
@@ -17,5 +16,12 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress"
+    },
+    "dependencies": {
+        "angular": "^1.8.2",
+        "angular-route": "^1.8.2",
+        "vue": "^2.6.14",
+        "vue-loader": "^15.9.7",
+        "vue-template-compiler": "^2.6.14"
     }
 }

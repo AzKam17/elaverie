@@ -1,6 +1,6 @@
 # Projet Laverie
 
-Projet Symfony - VueJs
+Projet Symfony - AngularJS
 
 ![alt text](https://symfony.com/images/logos/header-logo.svg)
 
@@ -20,6 +20,9 @@ Ce projet vise à mettre en place une application web de services de blanchisser
 - `npm encore dev-server`
 
 
-- [x] Mettre en place le projet et intégrez VueJS
-- [ ] Intégrer le template
-- [ ] Commencer à définir les routes
+- [x] Mettre en place le projet et intégrez Angular
+- [x] Intégrer le template
+- [x] Commencer à définir les routes
+- [ ] Intégrez les autres pages
+- [ ] Faire la liaison entre le back et le front pour la liste des articles
+- [ ] Coder un semblant de tarificateur
