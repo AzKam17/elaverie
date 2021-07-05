@@ -21,6 +21,7 @@ Ce projet vise à mettre en place une application web de services de blanchisser
 
 
 - [x] Mettre en place le projet et intégrez Angular
+- [x] Base de données créée
 - [x] Intégrer le template
 - [x] Commencer à définir les routes
 - [ ] Intégrez les autres pages
