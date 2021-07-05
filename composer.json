@@ -86,10 +86,12 @@
         },
         "heroku-postbuild": "node_modules/.bin/encore production",
         "post-install-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "heroku-postbuild"
         ],
         "post-update-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "heroku-postbuild"
         ]
     },
     "conflict": {
