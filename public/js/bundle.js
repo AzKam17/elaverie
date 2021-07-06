@@ -8808,3 +8808,20 @@ if(typeof(e) !== "function"){
 
     }
 }
+
+
+$( document ).ready(function(){
+    $("#mm0 ul li a:not([class])").click(
+        function(){
+            try {
+                $(".mm-close")[0].click()
+            }catch (e) {
+                console.log("Ok")
+            }
+        }
+    );
+
+    $("#mm0 ul li.active a").click(function(){
+        window.location = "/";
+    });
+});
