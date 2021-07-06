@@ -8821,7 +8821,13 @@ $( document ).ready(function(){
         }
     );
 
-    $("#mm0 ul li.active a").click(function(){
+    $("#mm0 ul li.active a").click(function(event){
+        event.preventDefault();
+        window.location = "/";
+    });
+
+    $(".home_reload").click(function(event){
+        event.preventDefault();
         window.location = "/";
     });
 });

@@ -32,7 +32,7 @@ app
         .otherwise({ redirectTo: '/home' });
 }])
     //Fonctionnalité permettant de controller l'ouverture et la fermetture de l'appel
-    .directive('linkdesacrouting', ['$rootScope', function($rootScope){
+    /*.directive('linkdesacrouting', ['$rootScope', function($rootScope){
         $rootScope.header = false;
         return {
             compile: function(element, attrs){
@@ -48,12 +48,8 @@ app
                 });
             }
         }
-    }])
+    }])*/
     .controller('homeCtrl', ['$scope', '$route', '$rootScope', '$location', function($scope, $route, $rootScope, $location){
-
-        $scope.$on("$routeChangeSuccess", function (event, next, current){
-            console.log(event);
-        });
 
         //Panel important information
         $scope.panelPosition = 0;
