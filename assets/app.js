@@ -1,55 +1,114 @@
 
+import './styles/style.css';
+require("animate.css");
+
 import angular from "angular";
 const $ = require('jquery');
 global.$ = global.jQuery = $;
 
 let app = angular.module('myApp', [
-    require('angular-route')
+    require('angular-route'),
+    require('angular-filter')
 ]);
+
+let myRouterLoader = function($q, $timeout, $rootScope){
+    let loader = document.getElementById("loader");
+    let delay = $q.defer();
+    $timeout(delay.resolve, 2000);
+    loader.classList.remove("animate__infinite");
+    loader.classList.add("animate__fadeOutDown");
+    loader.classList.add("animate__slower");
+    return delay.promise;
+};
+
+myRouterLoader.$inject = ['$q', '$timeout', '$rootScope'];
 
 app
     //Interpolation
     .config(['$interpolateProvider', function ($interpolateProvider) {
-    $interpolateProvider.startSymbol('//').endSymbol('//');
-}])
+        $interpolateProvider.startSymbol('//').endSymbol('//');
+    }])
+
     //Routing
     .config(['$routeProvider', function($routeProvider){
-    $routeProvider
-        .when("/home", {
-            templateUrl: "views/home.html",
-            controller: "homeCtrl"
-        })
-        .when("/tarifs", {
-            templateUrl: "views/tarifs.html",
-            controller: "tarifsCtrl"
-        })
-        .when("/faq", {
-            templateUrl: "views/faq.html"
-        })
-        .when("/contacts", {
-            templateUrl: "views/contacts.html"
-        })
-        .otherwise({ redirectTo: '/home' });
-}])
-    //Fonctionnalité permettant de controller l'ouverture et la fermetture de l'appel
-    /*.directive('linkdesacrouting', ['$rootScope', function($rootScope){
-        $rootScope.header = false;
+        $routeProvider
+            .when("/home", {
+                title: 'Accueil',
+                templateUrl: "views/home.html",
+                controller: "homeCtrl",
+                resolve:{
+                    delay: myRouterLoader
+                }
+            })
+            .when("/tarifs", {
+                title: 'Tarifs',
+                templateUrl: "views/tarifs.html",
+                controller: "tarifsCtrl",
+                resolve:{
+                    delay: myRouterLoader
+                }
+            })
+            .when("/faq", {
+                title: 'Foire Aux Questions',
+                templateUrl: "views/faq.html"
+            })
+            .when("/contacts", {
+                title: 'Contact',
+                templateUrl: "views/contacts.html"
+            })
+            .otherwise({ redirectTo: '/home' });
+    }])
+
+    .directive('showDuringResolve', ['$rootScope', function($rootScope) {
+
         return {
-            compile: function(element, attrs){
-                element.on("click", function(event){
-                    $rootScope.header = !$rootScope.header;
-                    if($rootScope.header === true){
-                        try {
-                            $(".mm-close")[0].click()
-                        }catch (e) {
-                            console.log("Ok")
-                        }
-                    }
+            link: function(scope, element) {
+
+                element.addClass('ng-hide');
+                $rootScope.statechange =  true;
+
+                var unregister = $rootScope.$on('$routeChangeStart', function() {
+                    element.removeClass('ng-hide');
+                    $rootScope.statechange =  false;
                 });
+
+                scope.$on('$destroy', unregister);
             }
-        }
-    }])*/
+        };
+    }])
+
+    //Changement de route dynamique en fonction de la route
+    .run(['$rootScope', function($rootScope) {
+        $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+            $rootScope.title = current.$$route.title;
+        });
+    }])
+
+    //Filtre pour remplacer une partie d'un texte
+    .filter('replace', [function () {
+
+        return function (input, from, to) {
+
+            if(input === undefined) {
+                return;
+            }
+
+            var regex = new RegExp(from, 'g');
+            return input.replace(regex, to);
+
+        };
+
+    }])
+
+    .controller("mainCtrl", ['$rootScope', function($rootScope){
+        $rootScope.statechange = true;
+    }])
+
+    //Controller de la page d'accueil
     .controller('homeCtrl', ['$scope', '$route', '$rootScope', '$location', function($scope, $route, $rootScope, $location){
+
+        $scope.message = "...";
+        $rootScope.statechange = true;
 
         //Panel important information
         $scope.panelPosition = 0;
@@ -74,6 +133,30 @@ app
 
     }])
 
-    .controller('tarifsCtrl', ['$scope', '$route', function($scope, $route){
+    //Controller de la page des tarifs
+    .controller('tarifsCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope){
+        $rootScope.statechange = true;
+        $scope.getArticlesCategories = function(){
+            $scope.ajaxCategorie = false;
+            $http.get("/ajax/categorie")
+                .then(function(response) {
+                    $scope.articlesCataegorie = response.data;
+                    $scope.articlesCataegoriePos = 0;
+                    $scope.ajaxCategorie = true;
+                });
+        }
 
+        $scope.tabArticleCategory = function(var1){
+            $scope.articlesCataegoriePos = var1;
+        }
+
+        $scope.arrondir = function(var1){
+            return Math.round(var1);
+        }
+
+        $scope.init = function(){
+            $scope.getArticlesCategories();
+        }
+
+        $scope.init();
     }]);

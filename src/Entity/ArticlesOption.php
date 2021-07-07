@@ -6,6 +6,7 @@ use App\Repository\ArticlesOptionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ArticlesOptionRepository::class)
@@ -16,16 +17,19 @@ class ArticlesOption
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("article_categorie_page_ajax")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("article_categorie_page_ajax")
      */
     private $lib;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups("article_categorie_page_ajax")
      */
     private $price;
 

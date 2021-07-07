@@ -6,8 +6,11 @@ use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
  */
 class Article
@@ -16,16 +19,19 @@ class Article
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("article_categorie_page_ajax")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("article_categorie_page_ajax")
      */
     private $lib;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups("article_categorie_page_ajax")
      */
     private $price;
 
@@ -41,6 +47,7 @@ class Article
 
     /**
      * @ORM\ManyToMany(targetEntity=ArticlesOption::class, mappedBy="articles")
+     * @Groups("article_categorie_page_ajax")
      */
     private $articlesOptions;
 
@@ -83,9 +90,13 @@ class Article
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    /**
+     * @ORM\PrePersist()
+     * @return $this
+     */
+    public function setCreatedAt(): self
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \DateTimeImmutable();
 
         return $this;
     }
